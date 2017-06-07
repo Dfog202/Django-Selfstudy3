@@ -1,3 +1,4 @@
+from datetime import datetime
 from django.db import models
 
 
@@ -18,15 +19,25 @@ class Author(models.Model):
 
 
 class Entry(models.Model):
-    blog = models.ForeignKey('Blog')
+    blog = models.ForeignKey(
+        'Blog',
+        related_name='entry_blog',
+        blank=True,
+        null=True,
+    )
     headline = models.CharField(max_length=255)
     body_text = models.TextField()
-    pub_date = models.DateField()
-    mod_date = models.DateField()
-    authors = models.ManyToManyField(Author)
-    n_comments = models.IntegerField()
-    n_pingbacks = models.IntegerField()
-    rating = models.IntegerField()
+    pub_date = models.DateField(blank=True,
+                                null=True, )
+    mod_date = models.DateField(blank=True,
+                                null=True, )
+    authors = models.ManyToManyField('Author')
+    n_comments = models.IntegerField(blank=True,
+                                     null=True, )
+    n_pingbacks = models.IntegerField(blank=True,
+                                      null=True, )
+    rating = models.IntegerField(blank=True,
+                                 null=True, )
 
     def __str__(self):
         return self.headline
